@@ -1,4 +1,6 @@
 - SPI from .NET
 - Custom types
 - OUT/INOUT params
+- Autoload DLLs from dirs
+- Autocreate SQL funcs
 
