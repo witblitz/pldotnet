@@ -74,15 +74,19 @@ static inline char *_pldn_build_uint_list(unsigned int *p, int n)
 	return r;
 }
 
+//if nparam < 0 only the name will be checked
 PLDotNetFunction *pldotnet_find_function_by_fqn(char *fqn, unsigned int *paramtypes, int nparam)
 {
 	PLDotNetFunction *f = pldotnet_function_list;
 
-	elog(DEBUG1, "Searching for function [%s] with %d parameters [%s]", fqn, nparam, _pldn_build_uint_list(paramtypes, nparam));
+	if (paramtypes)
+		elog(DEBUG1, "Searching for function [%s] with %d parameters [%s]", fqn, nparam, _pldn_build_uint_list(paramtypes, nparam));
+	else
+		elog(DEBUG1, "Searching for function [%s]", fqn);
 
 	while (f)
 	{
-		if (strcmp(f->fqn, fqn) == 0 && f->nparam == nparam)
+		if (strcmp(f->fqn, fqn) == 0 && (f->nparam == nparam || nparam < 0))
 		{
 			if (nparam > 0)
 			{
@@ -98,6 +102,7 @@ PLDotNetFunction *pldotnet_find_function_by_fqn(char *fqn, unsigned int *paramty
 	}
 	return NULL;
 }
+
 
 PLDotNetFunction *pldotnet_find_function_by_oid(Oid oid)
 {

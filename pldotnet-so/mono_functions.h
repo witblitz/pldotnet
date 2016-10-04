@@ -11,5 +11,7 @@
 void pldotnet_mono_init();
 Datum pldotnet_call_function(PLDotNetFunction *func, void **params);
 void pldotnet_load_assembly (const char *name);
+int pldotnet_load_assembly_from_data (const char *name, const char *data, unsigned int data_len);
+int pldotnet_load_functions_from_image(const char *name, MonoImage *image);
 
 #endif

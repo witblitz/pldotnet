@@ -16,7 +16,7 @@ inline unsigned int convert_pgtype_to_monotype(Oid oid)
 		case TEXTOID:
 			return MONO_TYPE_STRING;
 		default:
-			elog(ERROR, "Data type with OID %d is not supported by PL/Mono", oid);
+			elog(ERROR, "Data type with OID %d is not supported by PL/DotNet", oid);
 	}
 	return 0;
 }
@@ -30,7 +30,7 @@ unsigned int *convert_pgtypes_to_argtypes(const Oid *pgtypelist, int len)
 	return ret;
 }
 
-
+//convert postgres Datum to value for mono
 void *convert_datum_to_value(Datum val, Oid oid)
 {
 	void *obj = NULL;

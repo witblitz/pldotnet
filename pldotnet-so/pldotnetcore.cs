@@ -1,8 +1,37 @@
 
+using System;
+using Mono.CSharp;
+using Mono.CSharp.Switch;
 using System.Runtime.InteropServices;
 
 namespace PLDotNet
 {
+	public class code_executor
+	{
+		public static void hello()
+		{
+			pldotnet.raise(PLDotNet.LOG_LEVEL_CODES.NOTICE, "haaaaaai");
+		}
+
+		public static object run(string code)
+		{
+			pldotnet.raise(LOG_LEVEL_CODES.NOTICE, "running codess {0}", code);
+
+			object ret = null;
+
+			try {
+				CompilerSettings compsettings = null; //new CompilerSettings();
+				ConsoleReportPrinter crpp = new ConsoleReportPrinter();
+
+				CompilerContext ctx = new CompilerContext(compsettings, crpp);
+			} catch (Exception e) { pldotnet.raise(LOG_LEVEL_CODES.ERROR, "exception {0}", e); }
+			//Evaluator evaluator = new Evaluator(ctx);
+			//ret = evaluator.Run(code);
+			return ret;
+		}
+
+	}
+
 
 	//This values comes from postgresql headers
 	public enum LOG_LEVEL_CODES
@@ -34,5 +63,4 @@ namespace PLDotNet
 		static extern void _internal_elog(int level, string message);
 	}
 }
-
 

@@ -1,4 +1,6 @@
 
+SET client_min_messages=DEBUG2;
+
 SELECT pldotnet_load_dll(CONCAT(:'PWD', '/test.dll'));
 
 CREATE FUNCTION pldotnet_test() RETURNS INT AS 'PLMonoTest.Test:test' LANGUAGE pldotnet;
@@ -19,6 +21,6 @@ SELECT pldotnet_test();
 SELECT pldotnet_test_param_1(90);
 SELECT pldotnet_test_2_params(90, 80);
 SELECT pldotnet_test_string_param('HAAAAI');
-SELECT pldotnet_multiply_string('HAAAAI', 100);
+--SELECT pldotnet_multiply_string('HAAAAI', 100);
 
 

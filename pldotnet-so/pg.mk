@@ -20,4 +20,4 @@ LDFLAGS = -L../../../src/common -Wl,-z,relro -Wl,-z,now -Wl,--as-needed -L/usr/l
 LDFLAGS_EX = 
 LDFLAGS_SL = 
 LIBS = -lpgcommon -lpgport -lselinux -lxslt -lxml2 -lpam -lssl -lcrypto -lgssapi_krb5 -lz -ledit -lrt -lcrypt -ldl -lm 
-VERSION = PostgreSQL 9.5.3
+VERSION = PostgreSQL 9.5.4

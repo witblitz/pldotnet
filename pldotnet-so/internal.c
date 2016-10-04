@@ -42,6 +42,8 @@ void pldotnet_register_internals()
 	pldotnet_register_internal("PLMono._internal:load_dll", 1, _pldn_build1(TEXTOID), 1);
 
 	pldotnet_register_internal("PLMono._internal:raise_elog", 2, _pldn_build2(INT4OID, TEXTOID), 2);
+
+	//exposes pldotnet_internal_elog to the mono environment
 	mono_add_internal_call("pldotnet::_internal_elog", pldotnet_internal_elog);
 }
 

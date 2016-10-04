@@ -29,6 +29,7 @@ static bool pldotnet_assembly_list_check_hook(char **newvalue, void **extra, Guc
 
 PLDotNetFunction *pldotnet_function_list = NULL;
 PLDotNetFunction *pldotnet_function_list_end = NULL;
+PLDotNetFunction *pldotnet_function_run_code = NULL;
 
 char *pldotnet_assembly_list = NULL;
 char *pldotnet_assembly_dirs = NULL;
@@ -58,6 +59,8 @@ void _PG_init(void)
 	
 	pldotnet_mono_init();
 	pldotnet_register_internals();
+
+	inited = true;
 }
 
 PG_FUNCTION_INFO_V1(pldotnet_call_handler);
@@ -118,9 +121,10 @@ Datum pldotnet_call_handler(PG_FUNCTION_ARGS)
 			mono_argtypes = convert_pgtypes_to_argtypes(argtypes, argcount);
 
 			func = pldotnet_find_function_by_fqn(proc_source, mono_argtypes, argcount);
+
 			if (func == NULL)
 			{
-				elog(ERROR, "Could not find function");
+				elog(DEBUG1, "Could not find function");
 			}
 			else
 			{
@@ -160,6 +164,19 @@ Datum pldotnet_call_handler(PG_FUNCTION_ARGS)
 				elog(DEBUG1, "Ready to call function with %d arguments", func->nparam);
 				retval = pldotnet_call_function(func, calling_args);
 			}
+		}
+		else
+		{
+			void **calling_args = NULL;
+
+			calling_args = (void **)palloc(1 * sizeof(void *));
+			calling_args[0] = mono_string_new(mono_domain_get(), proc_source);
+
+			elog(DEBUG1, "Ready to call code [%s]", proc_source);
+
+			retval = pldotnet_call_function(pldotnet_function_run_code, calling_args);
+			
+			elog(ERROR, "DONE");
 		}
 
 	}
